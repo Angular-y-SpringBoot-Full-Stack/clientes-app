@@ -14,7 +14,19 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     // Es un evento cuando se inicia el componente
-    this.clientes = this.clienteService.getClientes();
+    // Se suscribe o registra el observador a nuestros clientes (Observable)
+    this.clienteService.getClientes().subscribe(
+        clientes => this.clientes = clientes
+    );
+      // Es lo mismo que arriba
+      /*function(clientes) {
+        this.clientes = clientes
+      }
+
+      (clientes) => {
+        this.clientes = clientes
+      }
+      */
   }
 
 }
