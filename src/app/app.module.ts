@@ -7,6 +7,14 @@ import { FooterComponent } from './footer/footer.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
 import { DirectivaComponent } from './directiva/directiva.component';
+import { RouterModule, Routes } from '@angular/router';
+
+// Mapeo de rutas con su Componente respectivo
+const routes: Routes = [
+  {path: '', redirectTo: '/cliente', pathMatch: 'full'}, // Path vacío: home
+  {path: 'directivas', component: DirectivaComponent},
+  {path: 'clientes', component: ClientesComponent}
+];
 
 @NgModule({
   declarations: [
@@ -17,7 +25,8 @@ import { DirectivaComponent } from './directiva/directiva.component';
     DirectivaComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]
