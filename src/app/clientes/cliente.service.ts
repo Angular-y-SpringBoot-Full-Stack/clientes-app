@@ -8,6 +8,8 @@ import { Cliente } from './cliente';
 
 // import { of } from 'rxjs/observable/of'; // V5
 import { of, Observable } from 'rxjs'; // Angular v6 en adelante
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 /*
   of: Método de construcción para crear el objeto Observable
@@ -16,13 +18,21 @@ import { of, Observable } from 'rxjs'; // Angular v6 en adelante
 
 @Injectable()
 export class ClienteService {
-
-  constructor() { }
+  private urlEndPoint:string = 'http://localhost:8081/api/clientes';
+  constructor(private http: HttpClient) { }
   /* Observable: Está basado en el patrón de diseño Observador, es decir, que tenemos un sujeto que es Observable, en este caso sería el Cliente y
   tenemos también observadores que están escuchando un posible cambio en el sujeto (Cliente). Estos observadores se suscriben al sujeto (Observable) y
   cuando cambia su estado se notifica a los observadores y se gatilla algún tipo de proceso/tarea/evento. */
   getClientes(): Observable<Cliente[]> {
     // Convertimos/creamos nuestro flujo Observable a partir de los objetos CLIENTES
-    return of(CLIENTES);
+    // return of(CLIENTES);
+
+    return this.http.get<Cliente[]>(this.urlEndPoint); // Primera forma
+  }
+
+  getClientes2(): Observable<Cliente[]> {
+      return this.http.get(this.urlEndPoint).pipe( // Segunda form
+        map((response) => response as Cliente[])
+      );
   }
 }
