@@ -10,6 +10,7 @@ import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clientes/form.component';
+import { FormsModule } from '@angular/forms' // Módulo para trabajar con formularios
 
 // Mapeo de rutas con su Componente respectivo
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],
