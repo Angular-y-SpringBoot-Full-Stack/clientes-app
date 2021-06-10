@@ -8,7 +8,7 @@ import { Cliente } from './cliente';
 
 // import { of } from 'rxjs/observable/of'; // V5
 import { of, Observable } from 'rxjs'; // Angular v6 en adelante
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 /*
@@ -19,6 +19,10 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class ClienteService {
   private urlEndPoint:string = 'http://localhost:8081/api/clientes';
+
+  // Cabecera Http
+  private httpHeaders = new HttpHeaders({'ContentType': 'application/json'});
+
   constructor(private http: HttpClient) { }
   /* Observable: Está basado en el patrón de diseño Observador, es decir, que tenemos un sujeto que es Observable, en este caso sería el Cliente y
   tenemos también observadores que están escuchando un posible cambio en el sujeto (Cliente). Estos observadores se suscriben al sujeto (Observable) y
@@ -34,5 +38,9 @@ export class ClienteService {
       return this.http.get(this.urlEndPoint).pipe( // Segunda form
         map((response) => response as Cliente[])
       );
+  }
+
+  create(cliente: Cliente): Observable<Cliente> {
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
   }
 }
