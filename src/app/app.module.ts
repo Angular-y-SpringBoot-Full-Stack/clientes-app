@@ -9,6 +9,7 @@ import { ClienteService } from './clientes/cliente.service';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './clientes/form.component';
 
 // Mapeo de rutas con su Componente respectivo
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ClientesComponent,
-    DirectivaComponent
+    DirectivaComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
