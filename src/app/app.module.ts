@@ -10,13 +10,14 @@ import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clientes/form.component';
-import { FormsModule } from '@angular/forms' // Módulo para trabajar con formularios
+import { FormsModule } from '@angular/forms';
 
 // Mapeo de rutas con su Componente respectivo
 const routes: Routes = [
   {path: '', redirectTo: '/cliente', pathMatch: 'full'}, // Path vacío: home
   {path: 'directivas', component: DirectivaComponent},
-  {path: 'clientes', component: ClientesComponent}
+  {path: 'clientes', component: ClientesComponent},
+  {path: 'clientes/form', component: FormComponent}
 ];
 
 @NgModule({
