@@ -7,9 +7,11 @@ import { Cliente } from './cliente';
 // import { Observable } from 'rxjs'; // Angular v6 en adelante
 
 // import { of } from 'rxjs/observable/of'; // V5
-import { of, Observable } from 'rxjs'; // Angular v6 en adelante
+import { of, Observable, throwError } from 'rxjs'; // Angular v6 en adelante
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 /*
   of: Método de construcción para crear el objeto Observable
@@ -23,7 +25,7 @@ export class ClienteService {
   // Cabecera Http
   private httpHeaders = new HttpHeaders({'ContentType': 'application/json'});
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   /* Observable: Está basado en el patrón de diseño Observador, es decir, que tenemos un sujeto que es Observable, en este caso sería el Cliente y
   tenemos también observadores que están escuchando un posible cambio en el sujeto (Cliente). Estos observadores se suscriben al sujeto (Observable) y
   cuando cambia su estado se notifica a los observadores y se gatilla algún tipo de proceso/tarea/evento. */
@@ -45,7 +47,14 @@ export class ClienteService {
   }
 
   getCliente(id: Number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+      catchError(e => {
+        this.router.navigate(['/clientes']); // Redirige al listado de clientes ante cualquier error
+        console.error(e.error.mensaje);
+        swal('Error al editar', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   update(cliente:Cliente): Observable<Cliente> {
