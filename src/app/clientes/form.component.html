@@ -1,7 +1,9 @@
 <div class="card bg-dark text-white">
   <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
-    <form>
+    <form #clienteForm="ngForm">
+      <!-- Se define una variable global clienteForm para nuestra vista formulario a la que se le asigna el objeto ngForm.
+          Con el objeto ngForm se puede saber si el formulario es válido o no -->
       <div class="form-group row">
         <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6">
@@ -51,9 +53,10 @@
 
       <div class="from-group row">
         <div class="col-sm-6">
-          <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!cliente.id else elseBlock">Crear</button>
+          <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!cliente.id else elseBlock" [disabled]="!clienteForm.form.valid">Crear</button>
+          <!-- Se agrega la directiva disabled. Se usa la variable clienteForm a la que se le asignó el objeto ngForm para validar si el formulario es válido o no -->
           <ng-template #elseBlock>
-            <button class="btn btn-primary" role="button" (click)='update()'>Editar</button>
+            <button class="btn btn-primary" role="button" (click)='update()' [disabled]="!clienteForm.form.valid">Editar</button>
           </ng-template>
         </div>
       </div>
