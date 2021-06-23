@@ -48,8 +48,8 @@ export class ClienteService {
       );
   }
 
-  create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+  create(cliente: Cliente): Observable<any> {
+    return this.http.post<any>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
         console.error(e.error.mensaje);
@@ -72,8 +72,8 @@ export class ClienteService {
     );
   }
 
-  update(cliente:Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+  update(cliente:Cliente): Observable<any> {
+    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
         console.error(e.error.mensaje);
