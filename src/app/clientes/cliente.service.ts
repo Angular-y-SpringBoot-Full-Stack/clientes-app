@@ -54,6 +54,12 @@ export class ClienteService {
       map((response: any) => response.cliente as Cliente),
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
+
+        if (e.status == 400) {
+          // Validación de parámetros: Contiene varios errores
+          return throwError(e);
+        }
+
         console.error(e.error.mensaje);
         swal(e.error.mensaje,
             e.error.error, // Aquí accedemos a la causa del error
@@ -79,6 +85,10 @@ export class ClienteService {
       // Estamos manejando con un any: Se retorna un Observable any
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
+
+        if (e.status == 400) {
+          return throwError(e);
+        }
         console.error(e.error.mensaje);
         swal(e.error.mensaje, e.error.error, 'error');
         return throwError(e); // Se retorna este objeto de error pero convertido en un Observable para mantener el mismo tipo de retorno del método
