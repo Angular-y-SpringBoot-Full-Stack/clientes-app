@@ -48,8 +48,10 @@ export class ClienteService {
       );
   }
 
-  create(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+  create(cliente: Cliente): Observable<Cliente> {
+    return this.http.post(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+      // Uso del operador map() para convertir el flujo reactivo y trabajar con Cliente (ya no trabajar con any)
+      map((response: any) => response.cliente as Cliente),
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
         console.error(e.error.mensaje);
@@ -74,6 +76,7 @@ export class ClienteService {
 
   update(cliente:Cliente): Observable<any> {
     return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+      // Estamos manejando con un any: Se retorna un Observable any
       catchError(e => {
         // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
         console.error(e.error.mensaje);

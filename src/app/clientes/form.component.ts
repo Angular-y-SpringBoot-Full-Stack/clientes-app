@@ -32,10 +32,18 @@ export class FormComponent implements OnInit {
 
   public create(): void {
     this.clienteService.create(this.cliente)
-      .subscribe(json => {
+      // Primera forma: manejar el retorno del Observable como any
+      /*.subscribe(json => {
           this.router.navigate(['/clientes']); // Redirige al listado de clientes
           // swal('Nuevo liente', `Cliente ${json.cliente.nombre} creado con éxito!`, 'success'); // primera forma de corregir
           swal('Nuevo cliente', `${json.mensaje}: ${json.cliente.nombre}`, 'success'); // segunda forma de corregir
+      }*/
+
+      // Segunda forma: manejar el retorno del Observable como Cilente
+      .subscribe(cliente => {
+          this.router.navigate(['/clientes']); // Redirige al listado de clientes
+          // swal('Nuevo liente', `Cliente ${json.cliente.nombre} creado con éxito!`, 'success'); // primera forma de corregir
+          swal('Nuevo cliente', `El cliente ${cliente.nombre} ha sido creado con éxito`, 'success'); // segunda forma de corregir
       }
     );
   }
@@ -43,6 +51,7 @@ export class FormComponent implements OnInit {
   public update(): void {
     this.clienteService.update(this.cliente)
       .subscribe(json => {
+        // Maneamos como un json del tipo genérico any
         this.router.navigate(['/clientes']); // Redirige al listado de clientes
         swal('Cliente actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success');
       }
