@@ -10,6 +10,12 @@ import { Cliente } from './cliente';
 import { of, Observable, throwError } from 'rxjs'; // Angular v6 en adelante
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+/* catchError: Operador para atrapar errores que ocurren cuando se retornan códigos de respuesta de error.
+Ejemplo:
+  404 Not Found
+  500 Internal Server Error */
+
+
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -43,7 +49,16 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
+        console.error(e.error.mensaje);
+        swal(e.error.mensaje,
+            e.error.error, // Aquí accedemos a la causa del error
+            'error');
+        return throwError(e); // Se retorna este objeto de error pero convertido en un Observable para mantener el mismo tipo de retorno del método
+      })
+    );
   }
 
   getCliente(id: Number): Observable<Cliente> {
@@ -52,16 +67,30 @@ export class ClienteService {
         this.router.navigate(['/clientes']); // Redirige al listado de clientes ante cualquier error
         console.error(e.error.mensaje);
         swal('Error al editar', e.error.mensaje, 'error');
-        return throwError(e);
+        return throwError(e); // Se retorna este objeto de error pero convertido en un Observable para mantener el mismo tipo de retorno del método
       })
     );
   }
 
   update(cliente:Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
+        console.error(e.error.mensaje);
+        swal(e.error.mensaje, e.error.error, 'error');
+        return throwError(e); // Se retorna este objeto de error pero convertido en un Observable para mantener el mismo tipo de retorno del método
+      })
+    );
   }
 
   delete(id: Number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders});
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        // No es necesario redirigir a otra página ya que la idea es permanecer en el formulario para corregir el error
+        console.error(e.error.mensaje);
+        swal(e.error.mensaje, e.error.error, 'error');
+        return throwError(e); // Se retorna este objeto de error pero convertido en un Observable para mantener el mismo tipo de retorno del método
+      })
+    );
   }
 }
