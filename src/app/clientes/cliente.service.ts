@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { formatDate, DatePipe, registerLocaleData } from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import localeES from '@angular/common/locales/es'; // Registrar locale (usar español al mostrar la fecha)
 import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
@@ -49,7 +49,6 @@ export class ClienteService {
           let clientes = response as Cliente[];
           return clientes.map(cliente => {
             cliente.nombre = cliente.nombre.toUpperCase();
-            registerLocaleData(localeES, 'es');
             let datePipe = new DatePipe('es');
             // cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // forma 1
             cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); // forma 2: Usando DatePipe
