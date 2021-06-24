@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { formatDate } from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
 
@@ -48,7 +48,9 @@ export class ClienteService {
           let clientes = response as Cliente[];
           return clientes.map(cliente => {
             cliente.nombre = cliente.nombre.toUpperCase();
-            cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US');
+            let datePipe = new DatePipe('en-US');
+            // cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // forma 1
+            cliente.createAt = datePipe.transform(cliente.createAt, 'dd/MM/yyyy'); // forma 2: Usando DatePipe
             // Función formateDate: fecha a cambiar | patrón de formato | locale
             return cliente;
           }); // método map para modificar cada item del array
