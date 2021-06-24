@@ -50,7 +50,15 @@ export class ClienteService {
             cliente.nombre = cliente.nombre.toUpperCase();
             let datePipe = new DatePipe('en-US');
             // cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // forma 1
-            cliente.createAt = datePipe.transform(cliente.createAt, 'dd/MM/yyyy'); // forma 2: Usando DatePipe
+            cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); // forma 2: Usando DatePipe
+            /*
+              dd: Dígitos del día
+              EEE: Nombre del día de la semana abreviado
+              EEEE: Nombre del día de la semana completo
+              MM: Mes en Dígitos
+              MMM: Nombre del mes: abreviado
+              MMMM: Nombre del mes completo
+            */
             // Función formateDate: fecha a cambiar | patrón de formato | locale
             return cliente;
           }); // método map para modificar cada item del array
