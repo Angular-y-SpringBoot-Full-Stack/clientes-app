@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
 
@@ -18,7 +19,6 @@ Ejemplo:
 
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
-
 /*
   of: Método de construcción para crear el objeto Observable
   Observable: Es la clase o Tipo de dato que representa nuestro flujo reactivo
@@ -48,6 +48,8 @@ export class ClienteService {
           let clientes = response as Cliente[];
           return clientes.map(cliente => {
             cliente.nombre = cliente.nombre.toUpperCase();
+            cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US');
+            // Función formateDate: fecha a cambiar | patrón de formato | locale
             return cliente;
           }); // método map para modificar cada item del array
         })
