@@ -50,7 +50,8 @@ export class ClienteService {
             cliente.nombre = cliente.nombre.toUpperCase();
             let datePipe = new DatePipe('en-US');
             // cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // forma 1
-            cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); // forma 2: Usando DatePipe
+            // cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); // forma 2: Usando DatePipe
+            cliente.createAt = datePipe.transform(cliente.createAt, 'fullDate'); // forma 3
             /*
               dd: Dígitos del día
               EEE: Nombre del día de la semana abreviado
@@ -58,6 +59,8 @@ export class ClienteService {
               MM: Mes en Dígitos
               MMM: Nombre del mes: abreviado
               MMMM: Nombre del mes completo
+
+              CONSTANTES: short, medium, shortDate, mediumDate, longDate, fullDate, shortTime, mediumTime
             */
             // Función formateDate: fecha a cambiar | patrón de formato | locale
             return cliente;
