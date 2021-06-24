@@ -44,7 +44,13 @@ export class ClienteService {
 
   getClientes2(): Observable<Cliente[]> {
       return this.http.get(this.urlEndPoint).pipe( // Segunda form
-        map((response) => response as Cliente[])
+        map((response) => { // Operador map del observable
+          let clientes = response as Cliente[];
+          return clientes.map(cliente => {
+            cliente.nombre = cliente.nombre.toUpperCase();
+            return cliente;
+          }); // método map para modificar cada item del array
+        })
       );
   }
 
