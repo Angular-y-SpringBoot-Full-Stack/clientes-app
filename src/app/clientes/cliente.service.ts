@@ -70,6 +70,20 @@ export class ClienteService {
       );
   }
 
+  getClientes3(): Observable<Cliente[]> {
+      return this.http.get(this.urlEndPoint).pipe(
+        map((response) => {
+          let clientes = response as Cliente[];
+          return clientes.map(cliente => {
+            cliente.nombre = cliente.nombre.toUpperCase();
+            let datePipe = new DatePipe('es');
+            // cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy');
+            return cliente;
+          });
+        })
+      );
+  }
+
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
       // Uso del operador map() para convertir el flujo reactivo y trabajar con Cliente (ya no trabajar con any)
