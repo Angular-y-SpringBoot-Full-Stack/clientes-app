@@ -11,7 +11,7 @@ import { Cliente } from './cliente';
 // import { of } from 'rxjs/observable/of'; // V5
 import { of, Observable, throwError } from 'rxjs'; // Angular v6 en adelante
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 /* catchError: Operador para atrapar errores que ocurren cuando se retornan códigos de respuesta de error.
 Ejemplo:
   404 Not Found
@@ -83,6 +83,31 @@ export class ClienteService {
         })
       );
   }
+
+  getClientes4(): Observable<Cliente[]> {
+    return this.http.get(this.urlEndPoint).pipe( // Segunda form
+      tap(response => {
+        let clientes = response as Cliente[];
+        console.log('ClienteService: tap 1');
+        clientes.forEach(cliente => {
+          console.log(cliente.nombre);
+        });
+      }),
+      map((response) => { // Operador map del observable
+        let clientes = response as Cliente[];
+        return clientes.map(cliente => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          return cliente;
+        });
+      }),
+      tap(response => {
+        console.log('ClienteService: tap 2');
+        response.forEach(cliente => {
+          console.log(cliente.nombre);
+        });
+      }),
+    );
+}
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(

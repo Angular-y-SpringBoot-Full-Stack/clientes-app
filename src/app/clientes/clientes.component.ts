@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import swal from 'sweetalert2';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-clientes',
@@ -16,9 +17,16 @@ export class ClientesComponent implements OnInit {
   ngOnInit(): void {
     // Es un evento cuando se inicia el componente
     // Se suscribe o registra el observador a nuestros clientes (Observable)
-    this.clienteService.getClientes3().subscribe(
-        clientes => this.clientes = clientes
-    );
+    this.clienteService.getClientes4().pipe(
+      tap(clientes => {
+        this.clientes = clientes
+        console.log('ClientesComponent: tap 3');
+        clientes.forEach(cliente => {
+          console.log(cliente.nombre);
+        });
+      })
+    )
+    .subscribe();
       // Es lo mismo que arriba
       /*function(clientes) {
         this.clientes = clientes
