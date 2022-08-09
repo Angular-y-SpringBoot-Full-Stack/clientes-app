@@ -17,16 +17,17 @@ export class ClientesComponent implements OnInit {
   ngOnInit(): void {
     // Es un evento cuando se inicia el componente
     // Se suscribe o registra el observador a nuestros clientes (Observable)
-    this.clienteService.getClientes4().pipe(
-      tap(clientes => {
-        this.clientes = clientes
+    // this.clienteService.getClientes4().pipe(
+    let page = 4;
+    this.clienteService.getClientes5(page).pipe(
+      tap(response => {
         console.log('ClientesComponent: tap 3');
-        clientes.forEach(cliente => {
+        (response.content as Cliente[]).forEach(cliente => {
           console.log(cliente.nombre);
         });
       })
     )
-    .subscribe();
+    .subscribe(response => this.clientes = response.content as Cliente[]);
       // Es lo mismo que arriba
       /*function(clientes) {
         this.clientes = clientes

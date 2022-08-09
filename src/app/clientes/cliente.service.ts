@@ -107,7 +107,33 @@ export class ClienteService {
         });
       }),
     );
-}
+  }
+
+  // Obtiene lista paginada de clientes
+  getClientes5(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+      tap((response: any) => {
+        console.log('ClienteService: tap 1');
+        (response.content as Cliente[]).forEach(cliente => {
+          console.log(cliente.nombre);
+        });
+      }),
+      map((response: any) => { // Operador map del observable
+        (response.content as Cliente[]).map(cliente => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          return cliente;
+        });
+        
+        return response;
+      }),
+      tap(response => {
+        console.log('ClienteService: tap 2');
+        (response.content as Cliente[]).forEach(cliente => {
+          console.log(cliente.nombre);
+        });
+      }),
+    );
+  }
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
