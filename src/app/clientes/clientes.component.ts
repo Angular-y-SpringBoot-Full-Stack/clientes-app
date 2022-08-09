@@ -3,6 +3,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
@@ -12,31 +13,38 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private activatedRoute: ActivatedRoute) { }
 
+  // ngOnInit solo se llama una vez, cuando el componente se inicia
   ngOnInit(): void {
     // Es un evento cuando se inicia el componente
     // Se suscribe o registra el observador a nuestros clientes (Observable)
     // this.clienteService.getClientes4().pipe(
-    let page = 4;
-    this.clienteService.getClientes5(page).pipe(
-      tap(response => {
-        console.log('ClientesComponent: tap 3');
-        (response.content as Cliente[]).forEach(cliente => {
-          console.log(cliente.nombre);
-        });
-      })
-    )
-    .subscribe(response => this.clientes = response.content as Cliente[]);
-      // Es lo mismo que arriba
-      /*function(clientes) {
-        this.clientes = clientes
-      }
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page: number = +params.get('page'); // Operador '+' convierte el string a number
+      if (!page) page = 0;
+      this.clienteService.getClientes5(page).pipe(
+        tap(response => {
+          console.log('ClientesComponent: tap 3');
+          (response.content as Cliente[]).forEach(cliente => {
+            console.log(cliente.nombre);
+          });
+        })
+      )
+      .subscribe(response => this.clientes = response.content as Cliente[]);
+    });
 
-      (clientes) => {
-        this.clientes = clientes
-      }
-      */
+    // Es lo mismo que arriba
+    /*function(clientes) {
+      this.clientes = clientes
+    }
+
+    (clientes) => {
+      this.clientes = clientes
+    }
+    */
   }
 
   delete(cliente: Cliente): void {
