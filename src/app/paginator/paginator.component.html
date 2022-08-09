@@ -6,7 +6,7 @@
   </li>
 
   <!-- Botón de primera página -->
-  <li [ngClass]="paginador.number == 0 ? 'disabled page-item': ''">
+  <li [ngClass]="paginador.first ? 'disabled page-item': 'page-item'">
     <a [routerLink]="['/clientes/page', 0]" class="page-link">Primera</a>
   </li>
 
@@ -17,7 +17,7 @@
   </li>
 
   <!-- Botón de última página -->
-  <li [ngClass]="paginador.number == paginador.totalPages - 1 ? 'disabled page-item': ''">
+  <li [ngClass]="paginador.last ? 'disabled page-item': 'page-item'">
     <a [routerLink]="['/clientes/page', paginador.totalPages - 1]" class="page-link">Última</a>
   </li>
 
