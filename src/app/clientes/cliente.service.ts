@@ -18,8 +18,8 @@ Ejemplo:
   500 Internal Server Error */
 
 
-import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 /*
   of: Método de construcción para crear el objeto Observable
   Observable: Es la clase o Tipo de dato que representa nuestro flujo reactivo
@@ -123,7 +123,7 @@ export class ClienteService {
           cliente.nombre = cliente.nombre.toUpperCase();
           return cliente;
         });
-        
+
         return response;
       }),
       tap(response => {
